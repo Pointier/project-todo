@@ -1,0 +1,8 @@
+.monthGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1rem;
+  color: red;
+  justify-items: center;
+  padding: 1rem;
+}
