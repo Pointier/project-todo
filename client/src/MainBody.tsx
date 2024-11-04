@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import AddTask from './AddTask'
 import TaskItem from './TaskItem'
-import styles from './Main.module.css'
+import styles from './MainBody.module.css'
 import { Task } from './AddTask'
 
 const Main = () => {

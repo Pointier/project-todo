@@ -1,7 +1,7 @@
 import styles from './App.module.css'
 import Header from './Header'
 import Footer from './Footer'
-import Main from './Main'
+import Main from './MainBody'
 import Calendar from './Calendar'
 
 
