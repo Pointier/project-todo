@@ -1,0 +1,12 @@
+.AddTask {
+  border: solid black;
+  border-radius: 12px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25vw;
+  max-width: 400px;
+  height: 25vh;
+  max-height: 400px;
+}

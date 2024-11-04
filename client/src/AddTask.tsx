@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import styles from './AddTask.module.css'
 
-interface Task {
+export interface Task {
+  id: number;
   name: string;
   description: string;
   date: string;
@@ -11,14 +13,18 @@ interface AddTaskProps {
   onClose: () => void;
 }
 
-export default function AddTask({ onAddTask, onClose }: AddTaskProps) {
+const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [date, setDate] = useState<string>('');
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const newTask: Task = { name: name, description: description, date: date };
+    if (!name || !description || !date) {
+      alert('All fields are required')
+      return
+    }
+    const newTask: Task = { id: Date.now(), name: name, description: description, date: date };
     onAddTask(newTask)
     setName('')
     setDescription('')
@@ -26,17 +32,29 @@ export default function AddTask({ onAddTask, onClose }: AddTaskProps) {
   }
   // add validation to the form
   return (
-    <>
+    <div className={styles.AddTask}>
       <form action="" onSubmit={handleSubmit}>
-        <label htmlFor="name">Name: </label>
-        <input type="text" id='name' placeholder='task name' value={name} onChange={(e) => setName(e.target.value)} /><br />
-        <label htmlFor="description">Description: </label>
-        <input type="text" id='description' placeholder='what is the task' value={description} onChange={(e) => setDescription(e.target.value)} /><br />
-        <label htmlFor="date">Date: </label>
-        <input type="date" id='date' value={date} onChange={(e) => setDate(e.target.value)} /><br />
-        <input type="submit" /><br />
-        <button onClick={onClose}>Close</button>
+        <div>
+          <label htmlFor="name">Name: </label>
+          <input type="text" id='name' placeholder='task name' value={name} onChange={(e) => setName(e.target.value)} />
+        </div>
+        <div>
+          <label htmlFor="description">Description: </label>
+          <input type="text" id='description' placeholder='what is the task' value={description} onChange={(e) => setDescription(e.target.value)} />
+        </div>
+        <div>
+          <label htmlFor="date">Date: </label>
+          <input type="date" id='date' value={date} onChange={(e) => setDate(e.target.value)} />
+        </div>
+        <div>
+          <input type="submit" />
+        </div>
+        <div>
+          <button onClick={onClose}>Close</button>
+        </div>
       </form>
-    </>
+    </div>
   )
 }
+
+export default AddTask
