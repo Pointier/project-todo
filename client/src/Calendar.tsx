@@ -11,10 +11,14 @@ function getWeekdays(locale: Locale): string[] {
   }
   return weekdays;
 }
+
+interface CalendarProps {
+  day: Date;
+  setDay: (date: Date) => void;
+}
 // add return type
-const Calendar = () => {
-  const today = new Date()
-  const [currentMonth, setCurrentMonth] = useState<Date>(today);
+const Calendar = ({ day, setDay }: CalendarProps) => {
+  const [currentMonth, setCurrentMonth] = useState<Date>(day);
   const current = format(currentMonth, 'MMMM yyyy')
   const setNextMonth = () => setCurrentMonth(addMonths(currentMonth, 1))
   const setPreviousMonth = () => setCurrentMonth(subMonths(currentMonth, 1))
@@ -26,6 +30,10 @@ const Calendar = () => {
   const endDate = endOfWeek(lastDayOfMonth, { weekStartsOn: 1 })
 
   const dateRange: Date[] = eachDayOfInterval({ start: startDate, end: endDate })
+
+  const handleSelectedDate = (selectedDay: Date) => {
+    setDay(selectedDay)
+  }
   return (
     <div>
       Calendar:
@@ -39,7 +47,7 @@ const Calendar = () => {
           <div key={day}>{day}</div>
         ))}
         {dateRange.map((day) => (
-          <div key={day.toISOString()}>{day.getDate()}</div>
+          <div key={day.toISOString()} onClick={() => handleSelectedDate(day)}>{day.getDate()}</div>
         ))}
       </div>
     </div>

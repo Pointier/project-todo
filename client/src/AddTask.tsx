@@ -5,7 +5,7 @@ export interface Task {
   id: number;
   name: string;
   description: string;
-  date: string;
+  date: Date;
 }
 
 interface AddTaskProps {
@@ -24,7 +24,8 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
       alert('All fields are required')
       return
     }
-    const newTask: Task = { id: Date.now(), name: name, description: description, date: date };
+    const taskDate = new Date(date)
+    const newTask: Task = { id: Date.now(), name: name, description: description, date: taskDate };
     onAddTask(newTask)
     setName('')
     setDescription('')

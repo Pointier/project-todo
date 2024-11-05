@@ -3,9 +3,13 @@ import AddTask from './AddTask'
 import TaskItem from './TaskItem'
 import styles from './MainBody.module.css'
 import { Task } from './AddTask'
+import { format, isSameDay } from 'date-fns'
 
-const Main = () => {
+interface MainProps {
+  day: Date
+}
 
+const Main = ({ day }: MainProps) => {
   const [tasks, setTasks] = useState<Task[]>([])
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
@@ -28,11 +32,26 @@ const Main = () => {
           </div>
         </div>
       )}
-      <h2>Task List</h2>
-      <div className={styles.taskContainer}>
-        {tasks.map((task) => (
-          <div key={task.id}><TaskItem task={task} onComplete={handleCompletedTask} /></div>
-        ))}
+      <div className={styles.mainContainer}>
+        <div className={styles.leftContainer}>
+          <h2>Task List</h2>
+          <div className={styles.taskContainer}>
+            {tasks.map((task) => (
+              <div key={task.id}><TaskItem task={task} onComplete={handleCompletedTask} /></div>
+            ))}
+          </div>
+        </div>
+        <div className={styles.rightContainer}><h2>Selected day:</h2>
+          <div>{format(day, 'dd MMM y')}</div>
+          <div>
+            {tasks.filter(task => isSameDay(day, task.date)).map((task) => (
+              <div key={task.id}>
+                <TaskItem task={task} onComplete={handleCompletedTask} />
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </div>
   )

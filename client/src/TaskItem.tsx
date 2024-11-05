@@ -1,5 +1,6 @@
 import styles from './TaskItem.module.css'
 import { Task } from './AddTask'
+import { format } from 'date-fns';
 
 interface TaskProps {
   task: Task;
@@ -15,7 +16,7 @@ const TaskItem = ({ task, onComplete }: TaskProps) => {
         {task.description}
       </div>
       <div>
-        {task.date}
+        {format(task.date, 'dd MMM y')}
       </div>
       <div>
         <button onClick={() => onComplete(task.id)}>Completed</button>
