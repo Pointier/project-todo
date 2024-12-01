@@ -1,11 +1,23 @@
-import styles from './Header.module.css'
+import styles from "./Header.module.css";
+import { User } from "./App";
 
-const Header = () => {
-  return (
-    <div className={styles.header}>
-      Header
-    </div>
-  )
+interface HeaderProps {
+  user: User | null; // Assume user might be null or undefined
 }
 
-export default Header
+const Header = ({ user }: HeaderProps) => {
+  return (
+    <div className={styles.header}>
+      {!user ? (
+        <>
+          <a href="/task-manager/sign-up">Sign up!</a>
+          <a href="/task-manager/sign-in">Sign in!</a>
+        </>
+      ) : (
+        <div>You are connected as: {user.name}</div>
+      )}
+    </div>
+  );
+};
+
+export default Header;

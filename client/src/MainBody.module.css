@@ -1,5 +1,5 @@
 .Main {
-  flex: 1;
+  flex: 1 0;
 }
 
 .modalBackdrop {
@@ -25,4 +25,14 @@
   display: flex;
   flex-direction: row;
   gap: 1rem;
+
+  width: 100%;
+}
+
+.leftContainer {
+  flex: 1 0;
+}
+
+.rightContainer {
+  flex: 1 0;
 }

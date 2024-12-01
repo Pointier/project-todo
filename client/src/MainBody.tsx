@@ -1,26 +1,38 @@
-import { useState } from 'react'
-import AddTask from './AddTask'
-import TaskItem from './TaskItem'
-import styles from './MainBody.module.css'
-import { Task } from './AddTask'
-import { format, isSameDay } from 'date-fns'
+import { useState } from "react";
+import AddTask from "./AddTask";
+import TaskItem from "./TaskItem";
+import styles from "./MainBody.module.css";
+import { Task } from "./AddTask";
+import { format, isSameDay, getHours } from "date-fns";
 
 interface MainProps {
-  day: Date
+  day: Date;
 }
 
 const Main = ({ day }: MainProps) => {
-  const [tasks, setTasks] = useState<Task[]>([])
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const addTask = (task: Task) => {
-    setTasks([...tasks, task])
-    setIsModalOpen(false)
-  }
+    setTasks([...tasks, task]);
+    setIsModalOpen(false);
+  };
 
   const handleCompletedTask = (completedTaskId: number) => {
-    setTasks(tasks.filter(task => task.id != completedTaskId))
-  }
+    setTasks(tasks.filter((task) => task.id != completedTaskId));
+  };
+
+  const tasksByHour = tasks
+    .filter((task) => isSameDay(day, task.date))
+    .reduce(
+      (acc: Record<number, Task[]>, task) => {
+        const hour = getHours(task.date);
+        if (!acc[hour]) acc[hour] = [] as Task[];
+        acc[hour].push(task);
+        return acc;
+      },
+      {} as Record<number, Task[]>,
+    );
   return (
     <div className={styles.Main}>
       <h1>Task Manager</h1>
@@ -28,7 +40,10 @@ const Main = ({ day }: MainProps) => {
       {isModalOpen && (
         <div className={styles.modalBackdrop}>
           <div>
-            <AddTask onAddTask={addTask} onClose={() => setIsModalOpen(false)} />
+            <AddTask
+              onAddTask={addTask}
+              onClose={() => setIsModalOpen(false)}
+            />
           </div>
         </div>
       )}
@@ -37,24 +52,31 @@ const Main = ({ day }: MainProps) => {
           <h2>Task List</h2>
           <div className={styles.taskContainer}>
             {tasks.map((task) => (
-              <div key={task.id}><TaskItem task={task} onComplete={handleCompletedTask} /></div>
-            ))}
-          </div>
-        </div>
-        <div className={styles.rightContainer}><h2>Selected day:</h2>
-          <div>{format(day, 'dd MMM y')}</div>
-          <div>
-            {tasks.filter(task => isSameDay(day, task.date)).map((task) => (
               <div key={task.id}>
                 <TaskItem task={task} onComplete={handleCompletedTask} />
               </div>
             ))}
           </div>
         </div>
-
+        <div className={styles.rightContainer}>
+          <h2>Selected day:</h2>
+          <div>{format(day, "dd MMM y")}</div>
+          <div>
+            {Array.from({ length: 24 }, (_, hour) => (
+              <div key={hour} className={styles.hourContainer}>
+                <h3>{format(new Date(day.setHours(hour, 0)), "HH:00")}</h3>
+                {tasksByHour[hour]?.map((task) => (
+                  <div key={task.id}>
+                    <TaskItem task={task} onComplete={handleCompletedTask} />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;
