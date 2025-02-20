@@ -15,6 +15,7 @@ function App() {
   const today = new Date();
   const [day, setDay] = useState<Date>(today);
   const [user, setUser] = useState<User | null>(null);
+  console.log("User: ", user);
 
   const router = createBrowserRouter([
     {
@@ -27,7 +28,6 @@ function App() {
     },
     {
       // TODO: add need to have both identifier
-      // TODO:
       path: "/task-manager/sign-up",
       element: <SignUp />,
     },
@@ -38,7 +38,7 @@ function App() {
   ]);
   return (
     <div className={styles.app}>
-      <Header user={user} />
+      <Header user={user} setUser={setUser} />
       <RouterProvider router={router} />
       <Footer />
     </div>

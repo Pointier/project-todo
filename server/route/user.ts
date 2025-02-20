@@ -7,11 +7,12 @@ function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.status(401).json({ error: "Unauthorized" });
+  res.status(401).json({ error: "Not Connected" });
 }
 
 // Protect the /api/user route
 router.get("/", ensureAuthenticated, (req: Request, res: Response) => {
   res.json({ user: req.user });
 });
+
 export default router;

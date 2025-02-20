@@ -27,10 +27,22 @@ const db = drizzle({ client: pool });
 const app = express();
 const port = 3000;
 
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 
-app.use(session({ secret: "doggo", resave: false, saveUninitialized: false }));
+app.use(
+  session({
+    secret: "doggo",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      sameSite: "lax", // Add this
+    },
+    rolling: true, // Extend session on each request
+  }),
+);
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
@@ -39,6 +51,28 @@ app.use(express.urlencoded({ extended: false }));
 // TODO: bcrypt salted for password, force https and protect against bot spam ?
 // TODO: learn about session like cookie ...(express-session or other ?)
 // TODO: cant add the same username
+
+passport.serializeUser((user: any, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id: number, done) => {
+  console.log("Deserializing user with ID:", id);
+  try {
+    const query = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.id, id));
+    const user = query[0];
+    if (!user) {
+      return done(null, false);
+    }
+    done(null, user);
+  } catch (err) {
+    console.error("Deserialization error:", err); // Log deserialization errors
+    done(err, null);
+  }
+});
 
 interface SignUpRequest {
   username: string;
@@ -102,26 +136,6 @@ passport.use(
   }),
 );
 
-passport.serializeUser((user: any, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id: number, done) => {
-  try {
-    const query = await db
-      .select()
-      .from(usersTable)
-      .where(eq(usersTable.id, id));
-    const user = query[0];
-
-    done(null, user);
-  } catch (err) {
-    done(err);
-  }
-});
-
-//app.post("/sign-in", passport.authenticate("local"));
-
 app.post("/sign-in", (req, res, next) => {
   console.log("Incoming request:", req.body); // Debug log
   passport.authenticate("local", (err: Error, user: SignUpRequest) => {
@@ -135,7 +149,10 @@ app.post("/sign-in", (req, res, next) => {
         console.error("Login error:", err); // Debug log
         return next(err);
       }
-      res.json({ message: "Signed in successfully", user });
+
+      console.log("Session:", req.session);
+      console.log("User :", req.user);
+      res.status(200).json({ message: "Login successful", user });
     });
   })(req, res, next);
 });
@@ -145,7 +162,8 @@ app.get("/log-out", (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.redirect("/");
+    //   res.redirect("/");
+    res.status(200).json({ message: "Logout successful" });
   });
 });
 

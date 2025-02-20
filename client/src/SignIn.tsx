@@ -6,24 +6,45 @@ interface SignInProps {
   setUser: (user: User) => void;
 }
 const SignIn = ({ setUser }: SignInProps) => {
+  // TODO: remove this function if not needed on other part
+  async function isAuthenticated() {
+    try {
+      const response = await axios.get("http://localhost:3000/user", {
+        withCredentials: true,
+      });
+      console.log("Auth:");
+      console.log(response.data);
+      const data = response.data;
+      if (data.user) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error("Error during authentication check:", error);
+    }
+  }
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    console.log(formData);
+    console.log("Submitting payload:", formData);
 
-    const response = await axios.post(
-      "http://localhost:3000/sign-in",
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/sign-in",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
         },
-      },
-    );
-    // TODO: Improve the security to only get the name or use jwt ?
-    console.log(response.data.user);
-    setUser(response.data.user);
+      );
+      setUser(response.data.user);
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+    }
   }
 
   return (

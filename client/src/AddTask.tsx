@@ -3,7 +3,6 @@ import axios from "axios";
 import styles from "./AddTask.module.css";
 
 export interface Task {
-  userId: number;
   name: string;
   description: string;
   date: Date;
@@ -27,7 +26,6 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
     }
     const taskDate = new Date(date);
     const newTask: Task = {
-      userId: 1,
       name: name,
       description: description,
       date: taskDate,
