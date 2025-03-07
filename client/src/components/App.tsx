@@ -5,17 +5,13 @@ import Main from "./MainBody";
 import Calendar from "./Calendar";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
+import { AuthProvider } from "./AuthContext";
 import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-export interface User {
-  name: string;
-}
 function App() {
   const today = new Date();
   const [day, setDay] = useState<Date>(today);
-  const [user, setUser] = useState<User | null>(null);
-  console.log("User: ", user);
 
   const router = createBrowserRouter([
     {
@@ -27,20 +23,21 @@ function App() {
       element: <Calendar day={day} setDay={setDay} />,
     },
     {
-      // TODO: add need to have both identifier
       path: "/task-manager/sign-up",
       element: <SignUp />,
     },
     {
       path: "/task-manager/sign-in",
-      element: <SignIn setUser={setUser} />,
+      element: <SignIn />,
     },
   ]);
   return (
     <div className={styles.app}>
-      <Header user={user} setUser={setUser} />
-      <RouterProvider router={router} />
-      <Footer />
+      <AuthProvider>
+        <Header />
+        <RouterProvider router={router} />
+        <Footer />
+      </AuthProvider>
     </div>
   );
 }

@@ -29,7 +29,7 @@ const rule = new RRule({
 db.insert(tasksTable)
   .values({
     title: "test",
-    userId: 1,
+    userUid: 1,
     date: dateFormat,
   })
   .then(() => console.log("done"));

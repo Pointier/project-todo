@@ -12,16 +12,15 @@ import {
 } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users_table", {
-  id: serial("id").primaryKey(),
-  name: varchar("name", { length: 200 }).notNull(),
-  password: varchar("password", { length: 200 }).notNull(),
+  uid: varchar("uid", { length: 200 }).primaryKey(),
+  name: varchar("name", { length: 200 }),
 });
 
 export const tasksTable = pgTable("tasks_table", {
   id: serial().primaryKey(),
-  userId: serial()
+  userUid: varchar({ length: 200 })
     .notNull()
-    .references((): AnyPgColumn => usersTable.id),
+    .references((): AnyPgColumn => usersTable.uid),
   title: varchar({ length: 200 }).notNull(),
   description: text(),
   date: date(),

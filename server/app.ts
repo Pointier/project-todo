@@ -1,13 +1,15 @@
 import express, { NextFunction, Request, Response } from "express";
 import user from "./route/user";
+import userStore from "./route/userStore";
+import tasks from "./route/tasks";
 import { config } from "dotenv";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { usersTable } from "./drizzle/schema/schema";
-import bcrypt from "bcryptjs";
 import cors from "cors";
 import session from "express-session";
+import { takeCoverage } from "v8";
 
 config({ path: ".env" });
 
@@ -25,32 +27,19 @@ const app = express();
 const port = 3000;
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+
 app.use(express.json());
 
-app.use(
-  session({
-    secret: "doggo",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      sameSite: "lax", // Add this
-    },
-    rolling: true, // Extend session on each request
-  }),
-);
-app.use(express.urlencoded({ extended: false }));
+//app.use(express.urlencoded({ extended: false }));
 
+//TODO: use express session ?
 // TODO: modify to add routing
 
-// TODO: bcrypt salted for password, force https and protect against bot spam ?
-// TODO: learn about session like cookie ...(express-session or other ?)
-// TODO: cant add the same username
-
-
-
 app.use("/user", user);
+
+app.use("/", userStore);
+
+app.use("", tasks);
 
 app.listen(port, () => {
   console.log(`server running at http://localhost:${port}`);

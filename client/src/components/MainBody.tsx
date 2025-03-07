@@ -18,9 +18,7 @@ const Main = ({ day }: MainProps) => {
     setIsModalOpen(false);
   };
 
-  const handleCompletedTask = (completedTaskId: number) => {
-    setTasks(tasks.filter((task) => task.id != completedTaskId));
-  };
+  const handleCompletedTask = (completedTaskId: number) => {};
 
   const tasksByHour = tasks
     .filter((task) => isSameDay(day, task.date))
@@ -52,7 +50,7 @@ const Main = ({ day }: MainProps) => {
           <h2>Task List</h2>
           <div className={styles.taskContainer}>
             {tasks.map((task) => (
-              <div key={task.id}>
+              <div>
                 <TaskItem task={task} onComplete={handleCompletedTask} />
               </div>
             ))}
@@ -66,7 +64,7 @@ const Main = ({ day }: MainProps) => {
               <div key={hour} className={styles.hourContainer}>
                 <h3>{format(new Date(day.setHours(hour, 0)), "HH:00")}</h3>
                 {tasksByHour[hour]?.map((task) => (
-                  <div key={task.id}>
+                  <div>
                     <TaskItem task={task} onComplete={handleCompletedTask} />
                   </div>
                 ))}

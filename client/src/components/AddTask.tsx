@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "./AuthContext";
 import axios from "axios";
 import styles from "./AddTask.module.css";
 
@@ -17,7 +18,7 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>("");
-
+  const { user, loading } = useAuth();
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!name || !description || !date) {
@@ -30,13 +31,27 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
       description: description,
       date: taskDate,
     };
-    onAddTask(newTask);
+    //onAddTask(newTask);
     setName("");
     setDescription("");
     setDate("");
     const formData = new FormData(e.currentTarget);
-    const response = await axios.post("http://localhost:3000/tasks", formData);
-    console.log(response.data);
+    const refresh = true;
+    if (user) {
+      const token = await user.getIdToken(refresh);
+      console.log(token);
+      const response = await axios.post(
+        "http://localhost:3000/tasks",
+        formData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        },
+      );
+      console.log(response.data);
+    } else {
+      console.error("No user logged in, cannot add task");
+    }
   }
   // TODO add validation to the form
   return (
@@ -65,7 +80,7 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
         <div>
           <label htmlFor="date">Date: </label>
           <input
-            type="datetime-local"
+            type="date"
             id="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
