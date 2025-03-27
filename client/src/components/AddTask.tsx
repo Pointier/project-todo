@@ -19,6 +19,7 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const { user, loading } = useAuth();
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!name || !description || !date) {
@@ -36,15 +37,18 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
     setDescription("");
     setDate("");
     const formData = new FormData(e.currentTarget);
-    const refresh = true;
     if (user) {
+      const refresh = true;
       const token = await user.getIdToken(refresh);
-      console.log(token);
+      console.log(formData);
       const response = await axios.post(
         "http://localhost:3000/tasks",
         formData,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
           withCredentials: true,
         },
       );
@@ -62,6 +66,7 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
           <input
             type="text"
             id="name"
+            name="name"
             placeholder="task name"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -72,6 +77,7 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
           <input
             type="text"
             id="description"
+            name="description"
             placeholder="what is the task"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -82,6 +88,7 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
           <input
             type="date"
             id="date"
+            name="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />

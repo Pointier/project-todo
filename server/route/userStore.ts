@@ -6,17 +6,17 @@ const router = express.Router();
 
 router.post(
   "/store-user",
-  async (req: Request, res: Response): Promise<void> => {
+  async (req: Request, res: Response): Promise<any> => {
     const { uid } = req.body;
     if (!uid) {
-      res.status(400).json({ error: "UID is required" });
+      return res.status(400).json({ error: "UID is required" });
     }
     try {
       await db.insert(usersTable).values({ uid: uid, name: "Placeholder" });
-      res.status(200).json({ message: "User stored successfully" });
+      return res.status(200).json({ message: "User stored successfully" });
     } catch (error) {
       console.error("Error storing user:", error);
-      res
+      return res
         .status(500)
         .json({ error: "An error occurred while storing the user" });
     }

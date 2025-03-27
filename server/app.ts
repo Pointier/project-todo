@@ -3,13 +3,9 @@ import user from "./route/user";
 import userStore from "./route/userStore";
 import tasks from "./route/tasks";
 import { config } from "dotenv";
-import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { usersTable } from "./drizzle/schema/schema";
 import cors from "cors";
-import session from "express-session";
-import { takeCoverage } from "v8";
 
 config({ path: ".env" });
 
@@ -39,8 +35,7 @@ app.use("/user", user);
 
 app.use("/", userStore);
 
-app.use("", tasks);
-
+app.use(tasks);
 app.listen(port, () => {
   console.log(`server running at http://localhost:${port}`);
 });
