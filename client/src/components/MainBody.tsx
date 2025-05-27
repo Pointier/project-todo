@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AddTask from "./AddTask";
 import TaskItem from "./TaskItem";
+import Calendar from "./calendar/Calendar";
 import styles from "./MainBody.module.css";
 import { Task } from "./AddTask";
 import { format, isSameDay, getHours } from "date-fns";
@@ -56,22 +57,7 @@ const Main = ({ day }: MainProps) => {
             ))}
           </div>
         </div>
-        <div className={styles.rightContainer}>
-          <h2>Selected day:</h2>
-          <div>{format(day, "dd MMM y")}</div>
-          <div>
-            {Array.from({ length: 24 }, (_, hour) => (
-              <div key={hour} className={styles.hourContainer}>
-                <h3>{format(new Date(day.setHours(hour, 0)), "HH:00")}</h3>
-                {tasksByHour[hour]?.map((task) => (
-                  <div>
-                    <TaskItem task={task} onComplete={handleCompletedTask} />
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
+        <div className={styles.rightContainer}></div>
       </div>
     </div>
   );

@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tasksGrid {
+  flex-grow: 1;
+  align-items: stretch;
+  background-color: purple;
+  position: relative;
+}
+
+.tasksBlock {
+  box-sizing: border-box;
+  border-bottom: 0.1rem solid gray;
+  background-color: green;
+}
+/*Think to add even/odd color to alternate tasks */
+.task {
+  border: 0.1rem solid cyan;
+  width: calc(100% - 3px);
+
+  border-radius: 0.4rem;
+}

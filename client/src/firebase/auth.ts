@@ -1,4 +1,3 @@
-import { tr } from "date-fns/locale";
 import { auth } from "./firebaseConfig";
 import {
   createUserWithEmailAndPassword,

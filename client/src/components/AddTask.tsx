@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./context/AuthContext";
 import axios from "axios";
 import styles from "./AddTask.module.css";
 
@@ -32,18 +32,16 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
       description: description,
       date: taskDate,
     };
-    //onAddTask(newTask);
     setName("");
     setDescription("");
     setDate("");
-    const formData = new FormData(e.currentTarget);
     if (user) {
       const refresh = true;
       const token = await user.getIdToken(refresh);
-      console.log(formData);
+      console.log(newTask);
       const response = await axios.post(
-        "http://localhost:3000/tasks",
-        formData,
+        "http://localhost:3000/tasks/add",
+        newTask,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -57,7 +55,7 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
       console.error("No user logged in, cannot add task");
     }
   }
-  // TODO add validation to the form
+  // TODO: add validation to the form
   return (
     <div className={styles.AddTask}>
       <form action="" onSubmit={handleSubmit}>
@@ -84,6 +82,7 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
           />
         </div>
         <div>
+          {/* TODO: add custom or stylized calendar*/}
           <label htmlFor="date">Date: </label>
           <input
             type="date"

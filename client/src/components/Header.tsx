@@ -1,9 +1,8 @@
 import { FormEvent, useEffect, useState } from "react";
+import ThemeToggle from "./theme/ThemeToggle";
 import { signOutWithEmail } from "../firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
-import { onAuthStateChanged, User } from "firebase/auth";
 import styles from "./Header.module.css";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./context/AuthContext";
 import axios from "axios";
 
 const Header = () => {
@@ -21,6 +20,9 @@ const Header = () => {
     if (user) {
       const refresh = true;
       const token = await user.getIdToken(refresh);
+      const tokenPayload = JSON.parse(atob(token.split(".")[1]));
+      console.log("Token Expiry Time:", new Date(tokenPayload.exp * 1000));
+      console.log(token);
       try {
         const response = await axios.post(
           "http://localhost:3000/test",
@@ -52,6 +54,7 @@ const Header = () => {
         </div>
       </div>
       <button onClick={handleClick}>Check Token</button>
+      <ThemeToggle></ThemeToggle>
     </div>
   );
 };

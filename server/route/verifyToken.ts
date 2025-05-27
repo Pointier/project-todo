@@ -16,8 +16,13 @@ const verifyToken = async (
     return res.status(401).json({ message: "Missing authorization" });
   }
   const idToken = authHeader.split("Bearer ")[1];
-  const decodedToken = await admin.auth().verifyIdToken(idToken);
-  req.user = decodedToken;
+  console.log("idToken: ", idToken);
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    req.user = decodedToken;
+  } catch (error) {
+    console.log("Error in verifying token: ", error);
+  }
   next();
 };
 

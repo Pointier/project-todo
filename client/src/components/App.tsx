@@ -2,10 +2,12 @@ import styles from "./App.module.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./MainBody";
-import Calendar from "./Calendar";
+import Calendar from "./calendar/Calendar";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
-import { AuthProvider } from "./AuthContext";
+import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import { TasksProvider } from "./context/TasksContext";
 import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -19,7 +21,7 @@ function App() {
       element: <Main day={day} />,
     },
     {
-      path: "/calendar",
+      path: "task-manager/calendar",
       element: <Calendar day={day} setDay={setDay} />,
     },
     {
@@ -33,11 +35,15 @@ function App() {
   ]);
   return (
     <div className={styles.app}>
-      <AuthProvider>
-        <Header />
-        <RouterProvider router={router} />
-        <Footer />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <Header />
+          <TasksProvider>
+            <RouterProvider router={router} />
+          </TasksProvider>
+          <Footer />
+        </AuthProvider>
+      </ThemeProvider>
     </div>
   );
 }
