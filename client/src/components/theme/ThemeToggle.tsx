@@ -1,6 +1,7 @@
 import { useTheme } from "../context/ThemeContext";
 
 const ThemeToggle = () => {
+  // TODO: use variable size for img
   const { theme, toggleTheme } = useTheme();
   const moon = (
     <svg

@@ -1,11 +1,35 @@
 [data-theme="light"] {
+  --primary-color: #ab36d6;
+  --primary-variant-color: #b651db;
+  --secondary-color: cyan;
+
   --bg-color: white;
+  --surface-color: #171616;
+  --error-color: red;
   --text-color: black;
+
+  --border-color: red;
+  --divider-color: black;
+
+  --input-bg-color: white;
+  --placeholder-color: blue;
 }
 
 [data-theme="dark"] {
-  --bg-color: black;
-  --text-color: white;
+  --primary-color: #ab36d6;
+  --primary-variant-color: brown;
+  --secondary-color: cyan;
+
+  --bg-color: white;
+  --surface-color: blue;
+  --error-color: red;
+  --text-color: black;
+
+  --border-color: red;
+  --divider-color: black;
+
+  --input-bg-color: white;
+  --placeholder-color: blue;
 }
 
 body {

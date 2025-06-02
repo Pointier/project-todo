@@ -1,14 +1,17 @@
 import styles from "./Day.module.css";
 import { useTasks } from "../../context/TasksContext";
+import EditTask from "../../manageTasks/EditTask";
 
 import { format, parse } from "date-fns";
+import { useState } from "react";
+import { Task } from "../../types/types";
 interface DayProps {
   day: Date;
 }
-
 const Day = ({ day }: DayProps) => {
   // TODO: make a pop up to manage tasks
   const { tasks, updateTasks } = useTasks();
+  const [selectedTask, setSelectedTask] = useState<null | Task>(null);
   const numberOfHours: number = 24;
   const hours: number[] = Array(numberOfHours)
     .fill(undefined)
@@ -24,36 +27,49 @@ const Day = ({ day }: DayProps) => {
   // TODO: handle if doesnt have hour (place at the top)
   const positionedTasks = dayTasks
     ? dayTasks.map((task) => {
-        const hourFormat = "HH:mm:ss";
-        const startHour = parse(task.startHour, hourFormat, new Date());
-        const endHour = parse(task.endHour, hourFormat, new Date());
+        if (task.hasHour) {
+          const hourFormat = "HH:mm:ss";
+          const startHour = parse(task.startHour, hourFormat, new Date());
+          const endHour = parse(task.endHour, hourFormat, new Date());
 
-        const topPosition =
-          (minutesInHour * startHour.getHours() + startHour.getMinutes()) *
-          minutePerPixel;
-        // Offset to still see the bottom border
-        const offset = 3;
-        const height =
-          (endHour.getHours() * minutesInHour +
-            endHour.getMinutes() -
-            (startHour.getHours() * minutesInHour + startHour.getMinutes())) *
-            minutePerPixel -
-          offset;
+          const topPosition =
+            (minutesInHour * startHour.getHours() + startHour.getMinutes()) *
+            minutePerPixel;
+          // Offset to still see the bottom border
+          const offset = 3;
+          const height =
+            (endHour.getHours() * minutesInHour +
+              endHour.getMinutes() -
+              (startHour.getHours() * minutesInHour + startHour.getMinutes())) *
+              minutePerPixel -
+            offset;
 
-        console.log("Height ", height);
-        return (
-          <div
-            className={styles.task}
-            style={{
-              position: "absolute",
-              top: `${topPosition}px`,
-              height: `${height}px`,
-            }}
-            key={task.title}
-          >
-            {task.title}
-          </div>
-        );
+          console.log("Height ", height);
+          return (
+            <div
+              className={styles.task}
+              style={{
+                position: "absolute",
+                top: `${topPosition}px`,
+                height: `${height}px`,
+              }}
+              key={task.id}
+              onClick={() => setSelectedTask(task)}
+            >
+              {task.title}
+            </div>
+          );
+        } else {
+          return (
+            <div
+              className={styles.task}
+              key={task.id}
+              onClick={() => setSelectedTask(task)}
+            >
+              Task without hour: {task.title}
+            </div>
+          );
+        }
       })
     : null;
   const listHours = hours.map((hour) => <div key={hour}>{hour}</div>);
@@ -66,8 +82,18 @@ const Day = ({ day }: DayProps) => {
   ));
   return (
     <div>
-      <div>Current day : {day.getDate()}</div>
-      <div className={styles.container}>
+      <div>
+        {selectedTask && (
+          <div className={styles.modalBackdrop}>
+            <EditTask
+              onClose={() => setSelectedTask(null)}
+              task={selectedTask}
+            ></EditTask>
+          </div>
+        )}
+      </div>
+      <div className={styles.top}>Current day : {day.getDate()}</div>
+      <div className={styles.mainContainer}>
         <div>{listHours}</div>
         <div className={styles.tasksGrid}>
           {tasksBlock}

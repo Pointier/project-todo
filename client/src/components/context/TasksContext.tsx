@@ -3,7 +3,7 @@ import { useAuth } from "./AuthContext";
 import type { User } from "firebase/auth";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
-
+import { Task } from "../types/types";
 interface TasksContextType {
   tasks: TasksType | null;
   updateTasks: () => void;
@@ -11,20 +11,11 @@ interface TasksContextType {
 
 const TasksContext = createContext<TasksContextType | undefined>(undefined);
 
-interface TaskType {
-  title: string;
-  description: string;
-  date: string;
-  startHour: string;
-  endHour: string;
-  hasHour: boolean;
-}
-
 interface TasksType {
-  tasks: TaskType[];
-  byDay: Map<string, TaskType[]>;
-  byMonth: Map<string, TaskType[]>;
-  byYear: Map<string, TaskType[]>;
+  tasks: Task[];
+  byDay: Map<string, Task[]>;
+  byMonth: Map<string, Task[]>;
+  byYear: Map<string, Task[]>;
 }
 
 async function getTasks(user: User | null): Promise<TasksType> {
@@ -36,7 +27,7 @@ async function getTasks(user: User | null): Promise<TasksType> {
   const token = await user.getIdToken(refresh);
 
   const response = await axios.get(
-    "http://localhost:3000/tasks/get",
+    "http://localhost:3000/tasks/getAll",
 
     {
       headers: {
@@ -47,11 +38,11 @@ async function getTasks(user: User | null): Promise<TasksType> {
     },
   );
 
-  const tasks: Array<TaskType> = response.data;
+  const tasks: Array<Task> = response.data;
 
-  const byDay = new Map<string, TaskType[]>();
-  const byMonth = new Map<string, TaskType[]>();
-  const byYear = new Map<string, TaskType[]>();
+  const byDay = new Map<string, Task[]>();
+  const byMonth = new Map<string, Task[]>();
+  const byYear = new Map<string, Task[]>();
 
   for (const task of tasks) {
     const date = parseISO(task.date);

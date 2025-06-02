@@ -1,23 +1,17 @@
 import { useState } from "react";
-import AddTask from "./AddTask";
+import AddTask from "./manageTasks/AddTask";
 import TaskItem from "./TaskItem";
 import Calendar from "./calendar/Calendar";
 import styles from "./MainBody.module.css";
-import { Task } from "./AddTask";
 import { format, isSameDay, getHours } from "date-fns";
+import { Task } from "./types/types.ts";
 
 interface MainProps {
   day: Date;
 }
-
 const Main = ({ day }: MainProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  const addTask = (task: Task) => {
-    setTasks([...tasks, task]);
-    setIsModalOpen(false);
-  };
 
   const handleCompletedTask = (completedTaskId: number) => {};
 
@@ -39,10 +33,7 @@ const Main = ({ day }: MainProps) => {
       {isModalOpen && (
         <div className={styles.modalBackdrop}>
           <div>
-            <AddTask
-              onAddTask={addTask}
-              onClose={() => setIsModalOpen(false)}
-            />
+            <AddTask onClose={() => setIsModalOpen(false)} />
           </div>
         </div>
       )}

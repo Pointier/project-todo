@@ -1,23 +1,30 @@
 import { useState } from "react";
-import { useAuth } from "./context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import styles from "./AddTask.module.css";
 
-export interface Task {
-  name: string;
-  description: string;
-  date: Date;
-}
-
 interface AddTaskProps {
-  onAddTask: (task: Task) => void;
   onClose: () => void;
 }
 
-const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
+interface TaskData {
+  name: string;
+  description: string;
+  date: Date;
+  startHour: string;
+  endHour: string;
+  hasHour: boolean;
+  isRecurring: boolean;
+}
+
+const AddTask = ({ onClose }: AddTaskProps) => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>("");
+  const [startHour, setStartHour] = useState<string>("");
+  const [endHour, setEndHour] = useState<string>("");
+  const [hasHour, setHasHour] = useState<boolean>(false);
+  const [isRecurring, setIsRecurring] = useState<boolean>(false);
   const { user, loading } = useAuth();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -27,14 +34,22 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
       return;
     }
     const taskDate = new Date(date);
-    const newTask: Task = {
+    const newTask: TaskData = {
       name: name,
       description: description,
       date: taskDate,
+      hasHour: hasHour,
+      startHour: startHour,
+      endHour: endHour,
+      isRecurring: isRecurring,
     };
     setName("");
     setDescription("");
     setDate("");
+    setHasHour(false);
+    setStartHour("");
+    setEndHour("");
+    setIsRecurring(false);
     if (user) {
       const refresh = true;
       const token = await user.getIdToken(refresh);
@@ -51,6 +66,7 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
         },
       );
       console.log(response.data);
+      onClose();
     } else {
       console.error("No user logged in, cannot add task");
     }
@@ -90,6 +106,49 @@ const AddTask = ({ onAddTask, onClose }: AddTaskProps) => {
             name="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="hasHour">Has Hour:</label>
+          <input
+            type="checkbox"
+            id="hasHour"
+            name="hasHour"
+            checked={hasHour}
+            onChange={(e) => setHasHour(e.target.checked)}
+          />
+        </div>
+        {hasHour && (
+          <div>
+            <div>
+              <label htmlFor="startHour">Start Hour: </label>
+              <input
+                type="time"
+                id="startHour"
+                name="startHour"
+                onChange={(e) => setStartHour(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="endHour">End Hour:</label>
+              <input
+                type="time"
+                id="endHour"
+                name="endHour"
+                onChange={(e) => setEndHour(e.target.value)}
+              />
+            </div>
+          </div>
+        )}
+        <div>
+          <label htmlFor="recurring">Recurring Task :</label>
+          <input
+            type="checkbox"
+            id="recurring"
+            name="recurring"
+            checked={isRecurring}
+            onChange={(e) => setIsRecurring(e.target.checked)}
           />
         </div>
         <div>
