@@ -1,7 +1,6 @@
 import styles from "./App.module.css";
 import Header from "./Header";
 import Footer from "./Footer";
-import Main from "./MainBody";
 import Calendar from "./calendar/Calendar";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
@@ -15,13 +14,10 @@ function App() {
   const today = new Date();
   const [day, setDay] = useState<Date>(today);
 
+  // TODO: add custom font later on
   const router = createBrowserRouter([
     {
-      path: "/task-manager/",
-      element: <Main day={day} />,
-    },
-    {
-      path: "task-manager/calendar",
+      path: "task-manager/",
       element: <Calendar day={day} setDay={setDay} />,
     },
     {

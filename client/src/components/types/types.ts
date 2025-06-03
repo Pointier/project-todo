@@ -8,3 +8,10 @@ export interface Task {
   endHour: string;
   hasHour: boolean;
 }
+
+export interface Tasks {
+  tasks: Task[];
+  byDay: Map<string, Task[]>;
+  byMonth: Map<string, Task[]>;
+  byYear: Map<string, Task[]>;
+}

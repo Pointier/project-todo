@@ -3,22 +3,16 @@ import { useAuth } from "./AuthContext";
 import type { User } from "firebase/auth";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
-import { Task } from "../types/types";
+import { Task, Tasks } from "../types/types";
+
 interface TasksContextType {
-  tasks: TasksType | null;
+  tasks: Tasks | null;
   updateTasks: () => void;
 }
 
 const TasksContext = createContext<TasksContextType | undefined>(undefined);
 
-interface TasksType {
-  tasks: Task[];
-  byDay: Map<string, Task[]>;
-  byMonth: Map<string, Task[]>;
-  byYear: Map<string, Task[]>;
-}
-
-async function getTasks(user: User | null): Promise<TasksType> {
+async function getTasks(user: User | null): Promise<Tasks> {
   if (!user) {
     throw new Error("No user provided");
   }
@@ -62,7 +56,7 @@ async function getTasks(user: User | null): Promise<TasksType> {
 }
 
 const TasksProvider = ({ children }: { children: React.ReactNode }) => {
-  const [tasks, setTasks] = useState<TasksType | null>(null);
+  const [tasks, setTasks] = useState<Tasks | null>(null);
   const { user, loading } = useAuth();
 
   const updateTasks = async () => {

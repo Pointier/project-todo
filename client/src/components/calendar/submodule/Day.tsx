@@ -1,16 +1,17 @@
 import styles from "./Day.module.css";
-import { useTasks } from "../../context/TasksContext";
 import EditTask from "../../manageTasks/EditTask";
 
 import { format, parse } from "date-fns";
 import { useState } from "react";
-import { Task } from "../../types/types";
+import { Task, Tasks } from "../../types/types";
+import { useTasks } from "../../context/TasksContext";
 interface DayProps {
   day: Date;
 }
+
 const Day = ({ day }: DayProps) => {
-  // TODO: make a pop up to manage tasks
   const { tasks, updateTasks } = useTasks();
+  // TODO: make a pop up to manage tasks
   const [selectedTask, setSelectedTask] = useState<null | Task>(null);
   const numberOfHours: number = 24;
   const hours: number[] = Array(numberOfHours)

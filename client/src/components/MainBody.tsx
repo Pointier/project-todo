@@ -9,6 +9,7 @@ import { Task } from "./types/types.ts";
 interface MainProps {
   day: Date;
 }
+// TODO: delete the file ?
 const Main = ({ day }: MainProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

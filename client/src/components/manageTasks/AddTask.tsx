@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useTasks } from "../context/TasksContext";
 import axios from "axios";
 import styles from "./AddTask.module.css";
 
@@ -26,6 +27,7 @@ const AddTask = ({ onClose }: AddTaskProps) => {
   const [hasHour, setHasHour] = useState<boolean>(false);
   const [isRecurring, setIsRecurring] = useState<boolean>(false);
   const { user, loading } = useAuth();
+  const { tasks, updateTasks } = useTasks();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -66,6 +68,7 @@ const AddTask = ({ onClose }: AddTaskProps) => {
         },
       );
       console.log(response.data);
+      updateTasks();
       onClose();
     } else {
       console.error("No user logged in, cannot add task");

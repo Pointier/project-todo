@@ -8,7 +8,7 @@
   --error-color: red;
   --text-color: black;
 
-  --border-color: red;
+  --surface-border-color: red;
   --divider-color: black;
 
   --input-bg-color: white;
@@ -17,15 +17,18 @@
 
 [data-theme="dark"] {
   --primary-color: #ab36d6;
-  --primary-variant-color: brown;
+  --primary-variant-color: #b651db;
   --secondary-color: cyan;
 
-  --bg-color: white;
-  --surface-color: blue;
+  --bg-color: #1e2030;
+  --surface-color: #201e3a;
   --error-color: red;
-  --text-color: black;
+  --text-color: white;
+  --hover-text-color: #ab36d6;
 
-  --border-color: red;
+  --surface-border-color: red;
+  --button-border-color: white;
+  --border-color: #8e8e8e;
   --divider-color: black;
 
   --input-bg-color: white;
@@ -37,6 +40,20 @@ body {
   color: var(--text-color);
 }
 
+button {
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  border-color: var(--surface-border-color);
+}
+svg {
+  fill: var(--text-color);
+}
+
+* {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
 .app {
   display: flex;
   flex-direction: column;

@@ -1,4 +1,4 @@
 .footer {
   color: violet;
-  border-top: black solid;
+  border-top: var(--border-color) solid;
 }

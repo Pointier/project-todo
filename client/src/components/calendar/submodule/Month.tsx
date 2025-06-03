@@ -8,12 +8,12 @@ import {
   eachDayOfInterval,
   subMonths,
   addMonths,
-  setDay,
 } from "date-fns";
 import { enUS, Locale } from "date-fns/locale";
 import styles from "./Month.module.css";
-import { useTasks } from "../../context/TasksContext";
+import { Tasks } from "../../types/types";
 import { Mode } from "../Calendar";
+import { useTasks } from "../../context/TasksContext";
 
 function getWeekdays(locale: Locale): string[] {
   const weekdays = [];
@@ -32,8 +32,8 @@ interface MonthProps {
 
 const Month = ({ day, setDay, setMode }: MonthProps) => {
   const [currentMonth, setCurrentMonth] = useState<Date>(day);
-  const { tasks, updateTasks } = useTasks();
   const current = format(currentMonth, "MMMM yyyy");
+  const { tasks, updateTasks } = useTasks();
   const setNextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
   const setPreviousMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
   const weekDays = getWeekdays(enUS);

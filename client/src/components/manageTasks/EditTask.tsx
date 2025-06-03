@@ -1,6 +1,7 @@
 import styles from "./EditTask.module.css";
 import { Task } from "../types/types";
 import { useAuth } from "../context/AuthContext";
+import { useTasks } from "../context/TasksContext";
 import axios from "axios";
 interface EditTaskProps {
   task: Task;
@@ -9,6 +10,7 @@ interface EditTaskProps {
 
 const EditTask = ({ task, onClose }: EditTaskProps) => {
   const { user, loading } = useAuth();
+  const { tasks, updateTasks } = useTasks();
   async function deleteTask() {
     if (user) {
       const refresh = true;
@@ -25,6 +27,7 @@ const EditTask = ({ task, onClose }: EditTaskProps) => {
         },
       );
       console.log(response.data);
+      updateTasks();
       onClose();
     } else {
       console.error("No user logged in, cannot add task");

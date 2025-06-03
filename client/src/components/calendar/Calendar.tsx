@@ -2,7 +2,7 @@ import { useState } from "react";
 import Month from "./submodule/Month";
 import Day from "./submodule/Day";
 import AddTask from "../manageTasks/AddTask";
-
+import { useTasks } from "../context/TasksContext";
 import styles from "./Calendar.module.css";
 
 interface CalendarProps {
