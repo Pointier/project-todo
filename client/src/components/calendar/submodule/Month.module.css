@@ -1,3 +1,30 @@
+.mainContainer {
+  flex: 1 1 0;
+}
+
+.monthChoice {
+  display: flex;
+  gap: 0.2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.monthChoice span {
+  text-align: center;
+}
+.monthChoice button {
+  height: 2rem;
+  width: 2rem;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 50%;
+  background: none;
+  border: none;
+}
+.monthChoice button:hover {
+  cursor: pointer;
+  background-color: var(--hover-bg-color);
+}
 .monthGrid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -16,6 +43,10 @@
 
 .dayNumber {
   color: white;
+}
+
+.today {
+  background-color: blue;
 }
 
 .dayNumber:hover {

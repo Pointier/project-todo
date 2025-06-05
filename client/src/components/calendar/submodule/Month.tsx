@@ -11,7 +11,6 @@ import {
 } from "date-fns";
 import { enUS, Locale } from "date-fns/locale";
 import styles from "./Month.module.css";
-import { Tasks } from "../../types/types";
 import { Mode } from "../Calendar";
 import { useTasks } from "../../context/TasksContext";
 
@@ -54,33 +53,39 @@ const Month = ({ day, setDay, setMode }: MonthProps) => {
   };
 
   return (
-    <div>
-      <div>
-        <button onClick={setPreviousMonth}>&lt;</button>
-        {current}
-        <button onClick={setNextMonth}>&gt;</button>
-      </div>
-      <div className={styles.monthGrid}>
-        {weekDays.map((day) => (
-          <div key={day}>{day}</div>
-        ))}
-        {dateRange.map((day) => {
-          const dayKey = format(day, "d/M/y");
-          return (
-            <div key={day.toISOString()} className={styles.day}>
-              <div
-                className={styles.dayNumber}
-                onClick={() => {
-                  switchToDay(day, Mode.Day);
-                }}
-              >
-                {day.getDate()}
-              </div>
+    <div className={styles.mainContainer}>
+      <div className={styles.top}>
+        <div className={styles.monthChoice}>
+          <button onClick={setPreviousMonth}>&lt;</button>
+          <button onClick={setNextMonth}>&gt;</button>
 
-              {tasks?.byDay.has(dayKey) && "Tasks"}
-            </div>
-          );
-        })}
+          <span>{current}</span>
+        </div>
+      </div>
+      <div className={styles.center}>
+        <div className={styles.monthGrid}>
+          {weekDays.map((day) => (
+            <div key={day}>{day}</div>
+          ))}
+          {dateRange.map((day) => {
+            const dayKey = format(day, "d/M/y");
+            const isToday = dayKey === format(new Date(), "d/M/y");
+            return (
+              <div key={day.toISOString()} className={styles.day}>
+                <div
+                  className={`${styles.dayNumber} ${isToday ? styles.today : ""}`}
+                  onClick={() => {
+                    switchToDay(day, Mode.Day);
+                  }}
+                >
+                  {day.getDate()}
+                </div>
+
+                {tasks?.byDay.has(dayKey) && "Tasks"}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

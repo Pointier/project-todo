@@ -2,7 +2,6 @@ import { useState } from "react";
 import Month from "./submodule/Month";
 import Day from "./submodule/Day";
 import AddTask from "../manageTasks/AddTask";
-import { useTasks } from "../context/TasksContext";
 import styles from "./Calendar.module.css";
 
 interface CalendarProps {
@@ -26,7 +25,7 @@ const Calendar = ({ day, setDay }: CalendarProps) => {
   return (
     <div>
       <div className={styles.top}>
-        Calendar: Affichage:
+        Display:
         <select value={mode} onChange={(e) => setMode(e.target.value as Mode)}>
           {Object.values(Mode).map((m) => (
             <option value={m} key={m}>

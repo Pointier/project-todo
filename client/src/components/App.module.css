@@ -25,6 +25,7 @@
   --error-color: red;
   --text-color: white;
   --hover-text-color: #ab36d6;
+  --hover-bg-color: #2d387e;
 
   --surface-border-color: red;
   --button-border-color: white;
@@ -43,7 +44,7 @@ body {
 button {
   background-color: var(--surface-color);
   color: var(--text-color);
-  border-color: var(--surface-border-color);
+  border-color: var(--button-border-color);
 }
 svg {
   fill: var(--text-color);

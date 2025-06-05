@@ -3,13 +3,48 @@
   gap: 0.5rem;
 }
 
+.top {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 1rem;
+  border-bottom: solid var(--border-color) 1px;
+}
+.top select {
+  border: solid var(--border-color) 1px;
+  background: none;
+  border-radius: 8px;
+  color: var(--text-color);
+}
+.top select:hover {
+  cursor: pointer;
+}
 .left {
   display: flex;
   gap: 0.5rem;
+  align-items: center;
+  border-right: solid var(--border-color) 1px;
+  padding: 0.5rem;
+}
+
+.left button {
+  color: var(--text-color);
+  background: none;
+  border: solid 1px var(--button-border-color);
+  border-radius: 8px;
+
+  cursor: pointer;
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 0.5rem;
+  transition: color 0.3s;
+  min-width: 4rem;
 }
 .center {
   display: flex;
+  padding: 0.5rem;
   gap: 0.5rem;
+  flex: 1 1 auto;
 }
 
 .modalBackdrop {
@@ -23,6 +58,4 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
-}
-.right {
 }

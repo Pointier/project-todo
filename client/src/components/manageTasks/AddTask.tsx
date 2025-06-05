@@ -71,7 +71,7 @@ const AddTask = ({ onClose }: AddTaskProps) => {
       updateTasks();
       onClose();
     } else {
-      console.error("No user logged in, cannot add task");
+      alert("No User log in, sign in or sign up!");
     }
   }
   // TODO: add validation to the form
