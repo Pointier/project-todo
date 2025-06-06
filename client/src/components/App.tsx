@@ -15,20 +15,25 @@ function App() {
   const [day, setDay] = useState<Date>(today);
 
   // TODO: add custom font later on
-  const router = createBrowserRouter([
+  const router = createBrowserRouter(
+    [
+      {
+        path: "",
+        element: <Calendar day={day} setDay={setDay} />,
+      },
+      {
+        path: "sign-up",
+        element: <SignUp />,
+      },
+      {
+        path: "sign-in",
+        element: <SignIn />,
+      },
+    ],
     {
-      path: "task-manager/",
-      element: <Calendar day={day} setDay={setDay} />,
+      basename: "/task-manager",
     },
-    {
-      path: "/task-manager/sign-up",
-      element: <SignUp />,
-    },
-    {
-      path: "/task-manager/sign-in",
-      element: <SignIn />,
-    },
-  ]);
+  );
   return (
     <div className={styles.app}>
       <ThemeProvider>
