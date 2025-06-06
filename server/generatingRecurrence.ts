@@ -26,13 +26,13 @@ const rule = new RRule({
 //  })
 //  .then(() => console.log("done recu"));
 
-db.insert(tasksTable)
-  .values({
-    title: "test",
-    userUid: 1,
-    date: dateFormat,
-  })
-  .then(() => console.log("done"));
+//db.insert(tasksTable)
+//  .values({
+//    title: "test",
+//    userUid: 1,
+//    date: dateFormat,
+//  })
+//  .then(() => console.log("done"));
 
 console.log(rule.all());
 
