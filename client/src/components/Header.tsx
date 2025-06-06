@@ -4,6 +4,7 @@ import { signOutWithEmail } from "../firebase/auth";
 import styles from "./Header.module.css";
 import { useAuth } from "./context/AuthContext";
 import { FaGithub } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const { user, loading } = useAuth();
@@ -32,8 +33,8 @@ const Header = () => {
         <div className={styles.authLinks}>
           {!user && (
             <>
-              <a href="/task-manager/sign-up">Sign up!</a>
-              <a href="/task-manager/sign-in">Sign in!</a>
+              <Link to="sign-up">Sign up!</Link>
+              <Link to="sign-in">Sign in!</Link>
             </>
           )}
 

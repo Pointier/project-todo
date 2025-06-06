@@ -34,7 +34,11 @@ const port = Number(process.env.PORT) || 3000;
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://project-todo-hown.onrender.com"],
+    origin: [
+      "http://localhost:5173",
+      "https://project-todo-hown.onrender.com",
+      "https://pointier.github.io/task-manager/",
+    ],
     credentials: true,
   }),
 );
