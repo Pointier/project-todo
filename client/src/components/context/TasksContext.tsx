@@ -10,6 +10,7 @@ interface TasksContextType {
   updateTasks: () => void;
 }
 
+const API_URL = import.meta.env.VITE_API_URL;
 const TasksContext = createContext<TasksContextType | undefined>(undefined);
 
 async function getTasks(user: User | null): Promise<Tasks> {
@@ -21,7 +22,7 @@ async function getTasks(user: User | null): Promise<Tasks> {
   const token = await user.getIdToken(refresh);
 
   const response = await axios.get(
-    "http://localhost:3000/tasks/getAll",
+    `${API_URL}/tasks/getAll`,
 
     {
       headers: {

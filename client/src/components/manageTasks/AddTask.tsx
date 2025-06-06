@@ -18,6 +18,7 @@ interface TaskData {
   isRecurring: boolean;
 }
 
+const API_URL = import.meta.env.VITE_API_URL;
 const AddTask = ({ onClose }: AddTaskProps) => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -56,17 +57,13 @@ const AddTask = ({ onClose }: AddTaskProps) => {
       const refresh = true;
       const token = await user.getIdToken(refresh);
       console.log(newTask);
-      const response = await axios.post(
-        "http://localhost:3000/tasks/add",
-        newTask,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
+      const response = await axios.post(`${API_URL}/tasks/add`, newTask, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-      );
+        withCredentials: true,
+      });
       console.log(response.data);
       updateTasks();
       onClose();

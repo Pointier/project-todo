@@ -8,6 +8,7 @@ interface EditTaskProps {
   onClose: () => void;
 }
 
+const API_URL = import.meta.env.VITE_API_URL;
 const EditTask = ({ task, onClose }: EditTaskProps) => {
   const { user, loading } = useAuth();
   const { tasks, updateTasks } = useTasks();
@@ -16,7 +17,7 @@ const EditTask = ({ task, onClose }: EditTaskProps) => {
       const refresh = true;
       const token = await user.getIdToken(refresh);
       const response = await axios.post(
-        "http://localhost:3000/tasks/delete",
+        `${API_URL}/tasks/delete`,
         { id: task.id },
         {
           headers: {
