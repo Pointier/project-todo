@@ -1,9 +1,11 @@
 import { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { signUpWithEmail } from "../firebase/auth";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const SignUp = () => {
+  const navigate = useNavigate();
   async function handleSubmit(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
 
@@ -11,14 +13,20 @@ const SignUp = () => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     console.log("Api url: ", API_URL);
+
     try {
       const user = await signUpWithEmail(email, password);
       console.log("User signed up successfully:", user);
-      //TODO: secure this with token instead of sending uid directly ?
-      const response = await axios.post(`${API_URL}/store-user`, {
-        uid: user.uid,
-      });
-      console.log("User UID sucessfully stored in the database");
+
+      try {
+        await axios.post(`${API_URL}/store-user`, { uid: user.uid });
+        console.log("User UID successfully stored in the database");
+        navigate("/");
+      } catch (dbErr) {
+        console.error("Failed to store user in DB:", dbErr);
+        await user.delete();
+        alert("Sign-up failed due to server error. Please try again.");
+      }
     } catch (err) {
       console.error("Sign-up error:", err);
     }

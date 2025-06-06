@@ -1,7 +1,9 @@
 import { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { signInWithEmail } from "../firebase/auth";
 
 const SignIn = () => {
+  const navigate = useNavigate();
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -10,6 +12,7 @@ const SignIn = () => {
     try {
       const user = await signInWithEmail(email, password);
       console.log("Successful Sign in");
+      navigate("/");
     } catch (error) {
       console.error("Error during sign-in:", error);
     }
