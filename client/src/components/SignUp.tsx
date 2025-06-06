@@ -10,7 +10,7 @@ const SignUp = () => {
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-
+    console.log("Api url: ", API_URL);
     try {
       const user = await signUpWithEmail(email, password);
       console.log("User signed up successfully:", user);
