@@ -30,7 +30,7 @@ if (isProduction && process.env.DB_URL) {
 const db = drizzle({ client: pool });
 
 const app = express();
-const port = Number(process.env.PORT) || 3000;
+const port = Number(process.env.PORT);
 
 app.use(
   cors({
