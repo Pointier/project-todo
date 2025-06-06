@@ -18,7 +18,7 @@ const Header = () => {
   }
   return (
     <div className={styles.header}>
-      <div className={styles.center}>Placeholder Name</div>
+      <div className={styles.center}>Task Manager</div>
       <div className={styles.right}>
         <div className={styles.utilities}>
           <a

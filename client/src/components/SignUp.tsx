@@ -2,6 +2,7 @@ import { FormEvent } from "react";
 import { signUpWithEmail } from "../firebase/auth";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
 const SignUp = () => {
   async function handleSubmit(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
@@ -14,7 +15,7 @@ const SignUp = () => {
       const user = await signUpWithEmail(email, password);
       console.log("User signed up successfully:", user);
       //TODO: secure this with token instead of sending uid directly ?
-      const response = await axios.post("http://localhost:3000/store-user", {
+      const response = await axios.post(`${API_URL}/store-user`, {
         uid: user.uid,
       });
       console.log("User UID sucessfully stored in the database");
