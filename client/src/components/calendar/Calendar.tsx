@@ -23,8 +23,8 @@ const Calendar = ({ day, setDay }: CalendarProps) => {
   // TODO: task does not appear directly, need to change back to main page
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   return (
-    <div>
-      <div className={styles.top}>
+    <div className={styles.mainContainer}>
+      <div className={styles.left}>
         Display:
         <select value={mode} onChange={(e) => setMode(e.target.value as Mode)}>
           {Object.values(Mode).map((m) => (
@@ -33,18 +33,14 @@ const Calendar = ({ day, setDay }: CalendarProps) => {
             </option>
           ))}
         </select>
+        <button onClick={() => setIsModalOpen(true)}>Add Task</button>
+        {isModalOpen && (
+          <div className={styles.modalBackdrop}>
+            <AddTask onClose={() => setIsModalOpen(false)}></AddTask>
+          </div>
+        )}
       </div>
-      <div className={styles.mainContainer}>
-        <div className={styles.left}>
-          <button onClick={() => setIsModalOpen(true)}>Add Task</button>
-          {isModalOpen && (
-            <div className={styles.modalBackdrop}>
-              <AddTask onClose={() => setIsModalOpen(false)}></AddTask>
-            </div>
-          )}
-        </div>
-        <div className={styles.center}>{modeComponentMap[mode]}</div>
-      </div>
+      <div className={styles.center}>{modeComponentMap[mode]}</div>
     </div>
   );
 };

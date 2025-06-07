@@ -1,14 +1,10 @@
 .mainContainer {
-  display: flex;
-  flex-direction: column;
   flex: 1 1 0;
 }
 
 .center {
   display: flex;
-  flex-direction: column;
-  flex: 1;
-  text-align: center;
+  flex: 1 1 auto;
 }
 
 .monthChoice {
@@ -34,18 +30,18 @@
   cursor: pointer;
   background-color: var(--hover-bg-color);
 }
-.weekdayGrid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-}
+
 .monthGrid {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(7, 1fr);
   flex: 1;
+  border: blue solid 1px;
+  padding: 1rem;
 }
 .day {
   border: solid var(--border-color) 1px;
-  padding: 0.5rem;
+  padding: 2rem;
 }
 
 .dayNumber {

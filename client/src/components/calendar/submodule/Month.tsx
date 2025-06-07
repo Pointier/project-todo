@@ -58,15 +58,18 @@ const Month = ({ day, setDay, setMode }: MonthProps) => {
         <div className={styles.monthChoice}>
           <button onClick={setPreviousMonth}>&lt;</button>
           <button onClick={setNextMonth}>&gt;</button>
-
           <span>{current}</span>
         </div>
       </div>
       <div className={styles.center}>
-        <div className={styles.monthGrid}>
+        <div className={styles.weekdayGrid}>
           {weekDays.map((day) => (
-            <div key={day}>{day}</div>
+            <div key={day} className={styles.weekday}>
+              {day}
+            </div>
           ))}
+        </div>
+        <div className={styles.monthGrid}>
           {dateRange.map((day) => {
             const dayKey = format(day, "d/M/y");
             const isToday = dayKey === format(new Date(), "d/M/y");
@@ -80,7 +83,6 @@ const Month = ({ day, setDay, setMode }: MonthProps) => {
                 >
                   {day.getDate()}
                 </div>
-
                 {tasks?.byDay.has(dayKey) && "Tasks"}
               </div>
             );
