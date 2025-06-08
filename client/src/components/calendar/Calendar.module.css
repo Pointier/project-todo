@@ -1,5 +1,4 @@
 .mainContainer {
-  border: solid green 1px;
   display: flex;
   flex-grow: 1;
 }
@@ -41,6 +40,13 @@
   padding: 0.5rem;
   transition: color 0.3s;
   min-width: 4rem;
+}
+.left select {
+  background: none;
+  border: solid 1px var(--button-border-color);
+  border-radius: 8px;
+  padding: 0.2rem;
+  color: var(--text-color);
 }
 .center {
   display: flex;

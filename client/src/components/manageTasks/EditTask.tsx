@@ -7,6 +7,8 @@ interface EditTaskProps {
   task: Task;
   onClose: () => void;
 }
+import { IoTrashBinOutline } from "react-icons/io5";
+import { IoCloseOutline } from "react-icons/io5";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const EditTask = ({ task, onClose }: EditTaskProps) => {
@@ -36,9 +38,15 @@ const EditTask = ({ task, onClose }: EditTaskProps) => {
   }
   return (
     <div className={styles.container}>
+      <div className={styles.action}>
+        <button onClick={deleteTask} className={styles.iconButton}>
+          <IoTrashBinOutline />
+        </button>
+        <button onClick={onClose} className={styles.iconButton}>
+          <IoCloseOutline />
+        </button>
+      </div>
       <div>{task.title}</div>
-      <button onClick={deleteTask}>Delete</button>
-      <button onClick={onClose}>Close</button>
     </div>
   );
 };

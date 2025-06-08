@@ -1,4 +1,18 @@
 .container {
   background-color: var(--surface-color);
-  border: 0.5rem var(--border-color) solid;
+  border: 1px var(--border-color) solid;
+  border-radius: 12px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.iconButton {
+  border: none;
+  font-size: 2rem;
+}
+
+.iconButton:hover svg {
+  color: var(--hover-text-color);
 }

@@ -64,7 +64,7 @@
 
 .utilities a svg,
 .utilities button svg {
-  fill: currentColor; /* Makes the SVG use the parent's text color */
+  fill: currentColor;
   width: 1em;
   height: 1em;
 }

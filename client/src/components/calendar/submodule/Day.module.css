@@ -1,22 +1,40 @@
-.mainContainer {
-  display: flex;
+.mainDay {
+  width: 100%;
+}
+.top {
+  padding: 0.5rem;
+  text-align: center;
+}
+.center {
   gap: 0.5rem;
+  display: flex;
 }
 .tasksGrid {
-  flex-grow: 1;
-  align-items: stretch;
-  background-color: purple;
   position: relative;
+  width: 100%;
+}
+
+.hour {
+  position: absolute;
+  transform: translateY(-50%);
+}
+.hoursBlock {
+  position: relative;
+  width: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
 .tasksBlock {
   box-sizing: border-box;
   border-bottom: 0.1rem solid gray;
-  background-color: green;
+  background-color: var(--bg-color);
+  width: 100%;
 }
-/*Think to add even/odd color to alternate tasks */
+/* TODO: Think to add even/odd color to alternate tasks */
 .task {
-  border: 0.1rem solid cyan;
+  background-color: var(--surface-color);
+  border: 0.1rem solid var(--border-color);
   width: calc(100% - 3px);
 
   border-radius: 0.4rem;
@@ -32,8 +50,10 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  display: flex; /* Add this */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
 }

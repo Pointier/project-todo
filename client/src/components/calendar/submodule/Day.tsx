@@ -21,7 +21,7 @@ const Day = ({ day }: DayProps) => {
   const dayKey = format(day, "d/M/y");
   const dayTasks = tasks?.byDay.has(dayKey) ? tasks.byDay.get(dayKey) : null;
   console.log("Day Tasks ", dayTasks);
-  const minutePerPixel = 0.5;
+  const minutePerPixel = 0.75;
 
   const minutesInHour = 60;
   // TODO: handle collision when multiple tasks at the same time
@@ -60,20 +60,19 @@ const Day = ({ day }: DayProps) => {
               {task.title}
             </div>
           );
-        } else {
-          return (
-            <div
-              className={styles.task}
-              key={task.id}
-              onClick={() => setSelectedTask(task)}
-            >
-              Task without hour: {task.title}
-            </div>
-          );
         }
       })
     : null;
-  const listHours = hours.map((hour) => <div key={hour}>{hour}</div>);
+  // TODO: add section for tasks without hours on top of the day
+  const listHours = hours.map((hour) => {
+    const top = minutesInHour * minutePerPixel * hour;
+    console.log(top);
+    return (
+      <div key={hour} style={{ top: `${top}px` }} className={styles.hour}>
+        {hour}
+      </div>
+    );
+  });
   const tasksBlock = hours.map((hour) => (
     <div
       className={styles.tasksBlock}
@@ -82,20 +81,18 @@ const Day = ({ day }: DayProps) => {
     ></div>
   ));
   return (
-    <div>
-      <div>
-        {selectedTask && (
-          <div className={styles.modalBackdrop}>
-            <EditTask
-              onClose={() => setSelectedTask(null)}
-              task={selectedTask}
-            ></EditTask>
-          </div>
-        )}
-      </div>
+    <div className={styles.mainDay}>
+      {selectedTask && (
+        <div className={styles.modalBackdrop}>
+          <EditTask
+            onClose={() => setSelectedTask(null)}
+            task={selectedTask}
+          ></EditTask>
+        </div>
+      )}
       <div className={styles.top}>Current day : {day.getDate()}</div>
-      <div className={styles.mainContainer}>
-        <div>{listHours}</div>
+      <div className={styles.center}>
+        <div className={styles.hoursBlock}>{listHours}</div>
         <div className={styles.tasksGrid}>
           {tasksBlock}
           {positionedTasks}
