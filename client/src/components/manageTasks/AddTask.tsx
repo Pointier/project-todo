@@ -73,8 +73,8 @@ const AddTask = ({ onClose }: AddTaskProps) => {
   }
   // TODO: add validation to the form
   return (
-    <div className={styles.AddTask}>
-      <form action="" onSubmit={handleSubmit}>
+    <div className={styles.addTask}>
+      <form className={styles.addTaskForm} action="" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Name: </label>
           <input
@@ -131,7 +131,7 @@ const AddTask = ({ onClose }: AddTaskProps) => {
             </div>
 
             <div>
-              <label htmlFor="endHour">End Hour:</label>
+              <label htmlFor="endHour">End Hour: </label>
               <input
                 type="time"
                 id="endHour"
@@ -142,7 +142,7 @@ const AddTask = ({ onClose }: AddTaskProps) => {
           </div>
         )}
         <div>
-          <label htmlFor="recurring">Recurring Task :</label>
+          <label htmlFor="recurring">Recurring Task: </label>
           <input
             type="checkbox"
             id="recurring"

@@ -1,13 +1,32 @@
-.AddTask {
+.addTask {
   border: solid black;
   border-radius: 12px;
   background-color: var(--bg-color);
   color: var(--text-color);
   display: flex;
+  gap: 0.5rem;
   align-items: center;
   justify-content: center;
   width: 25vw;
   max-width: 400px;
   height: 25vh;
   max-height: 400px;
+}
+
+.addTaskForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.addTaskForm input {
+  border: solid var(--button-border-color) 1px;
+  border-radius: 8px;
+  padding: 0.3rem;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+.addTaskForm input:hover {
+  cursor: pointer;
 }

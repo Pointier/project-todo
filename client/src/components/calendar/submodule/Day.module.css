@@ -1,9 +1,13 @@
 .mainDay {
+  overflow: scroll;
   width: 100%;
 }
 .top {
-  padding: 0.5rem;
+  padding: 1rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 .center {
   gap: 0.5rem;
@@ -24,6 +28,18 @@
   display: flex;
   justify-content: center;
 }
+.containerTaskUntimed {
+  overflow: scroll;
+  border: solid var(--border-color) 1px;
+}
+
+.taskUntimed {
+  border: solid var(--button-border-color) 1px;
+}
+
+.taskUntimed:hover {
+  cursor: pointer;
+}
 
 .tasksBlock {
   box-sizing: border-box;
@@ -32,14 +48,14 @@
   width: 100%;
 }
 /* TODO: Think to add even/odd color to alternate tasks */
-.task {
+.taskTimed {
   background-color: var(--surface-color);
   border: 0.1rem solid var(--border-color);
   width: calc(100% - 3px);
-
   border-radius: 0.4rem;
 }
-.task:hover {
+
+.taskTimed:hover {
   cursor: pointer;
 }
 

@@ -40,26 +40,32 @@
 }
 .monthGrid {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(3rem, 1fr));
   flex: 1;
 }
 .day {
   border: solid var(--border-color) 1px;
   padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .dayNumber {
-  color: white;
-}
-
-.today {
-  background-color: blue;
+  color: var(--text-color);
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dayNumber:hover {
-  background-color: blue;
-  border-radius: 1rem;
-  border-style: solid;
-  border-color: blue;
+  background-color: var(--hover-bg-color);
   cursor: pointer;
+}
+
+.today {
+  background-color: var(--primary-color);
 }

@@ -22,10 +22,27 @@ const Day = ({ day }: DayProps) => {
   const dayTasks = tasks?.byDay.has(dayKey) ? tasks.byDay.get(dayKey) : null;
   console.log("Day Tasks ", dayTasks);
   const minutePerPixel = 0.75;
-
+  const offset = 3;
   const minutesInHour = 60;
   // TODO: handle collision when multiple tasks at the same time
   // TODO: handle if doesnt have hour (place at the top)
+  const taskUntimed = dayTasks
+    ? dayTasks.map((task) => {
+        if (!task.hasHour) {
+          const height = minutePerPixel * minutesInHour - offset;
+          return (
+            <div
+              className={styles.taskUntimed}
+              style={{ height: `${height}px` }}
+              key={task.id}
+              onClick={() => setSelectedTask(task)}
+            >
+              {task.title}
+            </div>
+          );
+        }
+      })
+    : null;
   const positionedTasks = dayTasks
     ? dayTasks.map((task) => {
         if (task.hasHour) {
@@ -37,7 +54,6 @@ const Day = ({ day }: DayProps) => {
             (minutesInHour * startHour.getHours() + startHour.getMinutes()) *
             minutePerPixel;
           // Offset to still see the bottom border
-          const offset = 3;
           const height =
             (endHour.getHours() * minutesInHour +
               endHour.getMinutes() -
@@ -45,10 +61,9 @@ const Day = ({ day }: DayProps) => {
               minutePerPixel -
             offset;
 
-          console.log("Height ", height);
           return (
             <div
-              className={styles.task}
+              className={styles.taskTimed}
               style={{
                 position: "absolute",
                 top: `${topPosition}px`,
@@ -90,7 +105,15 @@ const Day = ({ day }: DayProps) => {
           ></EditTask>
         </div>
       )}
-      <div className={styles.top}>Current day : {day.getDate()}</div>
+      <div className={styles.top}>
+        Current day : {day.getDate()}{" "}
+        <div
+          className={styles.containerTaskUntimed}
+          style={{ height: `${minutesInHour * minutePerPixel * 2}px` }} // display 2 tasks
+        >
+          {taskUntimed}
+        </div>
+      </div>
       <div className={styles.center}>
         <div className={styles.hoursBlock}>{listHours}</div>
         <div className={styles.tasksGrid}>
