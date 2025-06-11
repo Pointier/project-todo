@@ -6,6 +6,10 @@ import styles from "./AddTask.module.css";
 
 interface AddTaskProps {
   onClose: () => void;
+  defaultHasHour?: boolean;
+  defaultStartHour?: string;
+  defaultEndHour?: string;
+  defaultDate?: string;
 }
 
 interface TaskData {
@@ -19,17 +23,24 @@ interface TaskData {
 }
 
 const API_URL = import.meta.env.VITE_API_URL;
-const AddTask = ({ onClose }: AddTaskProps) => {
+
+const AddTask = ({
+  onClose,
+  defaultHasHour = false,
+  defaultDate = "",
+  defaultStartHour = "",
+  defaultEndHour = "",
+}: AddTaskProps) => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [date, setDate] = useState<string>("");
-  const [startHour, setStartHour] = useState<string>("");
-  const [endHour, setEndHour] = useState<string>("");
-  const [hasHour, setHasHour] = useState<boolean>(false);
+  const [date, setDate] = useState<string>(defaultDate);
+  const [startHour, setStartHour] = useState<string>(defaultStartHour);
+  const [endHour, setEndHour] = useState<string>(defaultEndHour);
+  const [hasHour, setHasHour] = useState<boolean>(defaultHasHour);
   const [isRecurring, setIsRecurring] = useState<boolean>(false);
   const { user, loading } = useAuth();
   const { tasks, updateTasks } = useTasks();
-
+  console.log("Default hour:", defaultStartHour);
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!name || !description || !date) {
@@ -126,6 +137,7 @@ const AddTask = ({ onClose }: AddTaskProps) => {
                 type="time"
                 id="startHour"
                 name="startHour"
+                value={startHour}
                 onChange={(e) => setStartHour(e.target.value)}
               />
             </div>
@@ -136,11 +148,13 @@ const AddTask = ({ onClose }: AddTaskProps) => {
                 type="time"
                 id="endHour"
                 name="endHour"
+                value={endHour}
                 onChange={(e) => setEndHour(e.target.value)}
               />
             </div>
           </div>
         )}
+        {/*
         <div>
           <label htmlFor="recurring">Recurring Task: </label>
           <input
@@ -151,6 +165,7 @@ const AddTask = ({ onClose }: AddTaskProps) => {
             onChange={(e) => setIsRecurring(e.target.checked)}
           />
         </div>
+        */}
         <div>
           <input type="submit" />
         </div>
