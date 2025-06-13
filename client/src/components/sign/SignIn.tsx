@@ -1,6 +1,7 @@
 import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmail } from "../firebase/auth";
+import { signInWithEmail } from "../../firebase/auth";
+import styles from "./SignIn.module.css";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -19,15 +20,15 @@ const SignIn = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className={styles.signInContainer}>
+      <form className={styles.center} onSubmit={handleSubmit}>
         <label>
           Email: <input type="text" name="email" />
         </label>
         <label>
           Password: <input type="password" name="password" />
         </label>
-        <button type="submit">Submit</button>
+        <button type="submit">Sign In</button>
       </form>
     </div>
   );

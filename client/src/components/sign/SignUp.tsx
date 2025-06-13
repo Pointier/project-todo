@@ -1,6 +1,7 @@
 import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { signUpWithEmail } from "../firebase/auth";
+import { signUpWithEmail } from "../../firebase/auth";
+import styles from "./SignUp.module.css";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -16,7 +17,6 @@ const SignUp = () => {
 
     try {
       const user = await signUpWithEmail(email, password);
-      console.log("User signed up successfully:", user);
 
       try {
         await axios.post(`${API_URL}/store-user`, { uid: user.uid });
@@ -33,15 +33,13 @@ const SignUp = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className={styles.signUpContainer}>
+      <form className={styles.center} onSubmit={handleSubmit}>
         <label>
-          Email:
-          <input type="email" name="email" required />
+          Email: <input type="email" name="email" required />
         </label>
         <label>
-          Password:
-          <input type="password" name="password" required />
+          Password: <input type="password" name="password" required />
         </label>
         <button type="submit">Sign Up</button>
       </form>

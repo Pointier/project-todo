@@ -34,8 +34,6 @@ const rule = new RRule({
 //  })
 //  .then(() => console.log("done"));
 
-console.log(rule.all());
-
 rule.all().forEach((date) => {
   console.log(format(date, "yyyy-MM-dd"));
 });

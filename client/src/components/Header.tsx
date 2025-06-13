@@ -18,7 +18,11 @@ const Header = () => {
   }
   return (
     <div className={styles.header}>
-      <div className={styles.center}>Task Manager</div>
+      <div className={styles.center}>
+        <Link className={styles.navLink} to="/">
+          Task Manager
+        </Link>{" "}
+      </div>
       <div className={styles.right}>
         <div className={styles.utilities}>
           <a

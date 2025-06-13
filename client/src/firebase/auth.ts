@@ -12,7 +12,6 @@ export async function signUpWithEmail(email: string, password: string) {
       email,
       password,
     );
-    console.log("User signed up:", userCredential.user);
     return userCredential.user;
   } catch (error: unknown) {
     if (error instanceof Error) {

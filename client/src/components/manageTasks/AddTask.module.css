@@ -4,6 +4,7 @@
   background-color: var(--bg-color);
   color: var(--text-color);
   display: flex;
+  flex-direction: column;
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
@@ -28,5 +29,42 @@
 }
 
 .addTaskForm input:hover {
+  cursor: pointer;
+}
+
+.modalBackdrop {
+  text-align: start;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.errorMessage {
+  color: var(--error-color);
+  font-weight: bold;
+}
+
+.errorUser {
+  color: var(--error-color);
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button {
+  border: solid 1px var(--button-border-color);
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+button:hover {
   cursor: pointer;
 }

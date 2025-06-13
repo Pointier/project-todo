@@ -20,7 +20,6 @@ router.post("/tasks/add", async (req: Request, res: Response): Promise<any> => {
   const userUID = req.user!.uid;
   const { name, description, date, hasHour, startHour, endHour, isRecurring } =
     req.body;
-  console.log(`name: ${name} desc: ${description} date: ${date}`);
   try {
     const taskData = {
       userUid: userUID,

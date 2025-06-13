@@ -18,7 +18,7 @@ const Calendar = ({ day, setDay }: CalendarProps) => {
   const [mode, setMode] = useState<Mode>(Mode.Month);
   const modeComponentMap = {
     [Mode.Month]: <Month day={day} setDay={setDay} setMode={setMode}></Month>,
-    [Mode.Day]: <Day day={day}></Day>,
+    [Mode.Day]: <Day day={day} setMode={setMode}></Day>,
   };
   // TODO: task does not appear directly, need to change back to main page
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -35,7 +35,7 @@ const Calendar = ({ day, setDay }: CalendarProps) => {
         </select>
         <button onClick={() => setIsModalOpen(true)}>Add Task</button>
         {isModalOpen && (
-          <div className={styles.modalBackdrop}>
+          <div>
             <AddTask onClose={() => setIsModalOpen(false)}></AddTask>
           </div>
         )}

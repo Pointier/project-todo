@@ -9,6 +9,10 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
+.date:hover {
+  cursor: pointer;
+}
 .center {
   gap: 0.5rem;
   display: flex;
@@ -57,19 +61,4 @@
 
 .taskTimed:hover {
   cursor: pointer;
-}
-
-.modalBackdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  display: flex; /* Add this */
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
 }

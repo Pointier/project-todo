@@ -1,39 +1,43 @@
 [data-theme="light"] {
-  --primary-color: #ab36d6;
-  --primary-variant-color: #b651db;
-  --secondary-color: cyan;
+  --primary-color: #c74cc7; /* pinkish-purple */
+  --primary-variant-color: #d16ba5; /* lighter variant */
+  --secondary-color: #00bcd4; /* cyan accent */
 
-  --bg-color: white;
-  --surface-color: #171616;
-  --error-color: red;
-  --text-color: black;
+  --bg-color: #f5f7fa; /* very light gray-blue background */
+  --surface-color: #ffffff; /* white surface for cards, panels */
+  --error-color: #e63946; /* clean, warm red */
+  --text-color: #1a1a1a; /* dark neutral text */
+  --hover-text-color: #c74cc7; /* pinkish-purple hover */
+  --hover-bg-color: #f0e6f6; /* very soft purple background on hover */
 
-  --surface-border-color: red;
-  --divider-color: black;
+  --surface-border-color: #e0e0e0; /* light gray border */
+  --button-border-color: #c74cc7; /* consistent with primary */
+  --border-color: #cbd5e1; /* soft gray-blue */
+  --divider-color: #dfe3e8; /* very light divider */
 
-  --input-bg-color: white;
-  --placeholder-color: blue;
+  --input-bg-color: #ffffff; /* white input */
+  --placeholder-color: #6c757d; /* muted gray */
 }
 
 [data-theme="dark"] {
-  --primary-color: #ab36d6;
-  --primary-variant-color: #b651db;
-  --secondary-color: cyan;
+  --primary-color: #d16ba5; /* pinkish purple */
+  --primary-variant-color: #c74cc7; /* stronger pink-purple variant */
+  --secondary-color: #5ddcff; /* bright cyan for accent */
 
-  --bg-color: #1e2030;
-  --surface-color: #201e3a;
-  --error-color: red;
-  --text-color: white;
-  --hover-text-color: #ab36d6;
-  --hover-bg-color: #2d387e;
+  --bg-color: #121826; /* deep navy blue */
+  --surface-color: #1b263b; /* slightly lighter for cards, panels */
+  --error-color: #ff6b6b; /* soft red for errors */
+  --text-color: #e0e1dd; /* off-white, easier on the eyes than pure white */
+  --hover-text-color: #f7aef8; /* soft pink hover effect */
+  --hover-bg-color: #2d3a5e; /* muted blue-purple hover background */
 
-  --surface-border-color: red;
-  --button-border-color: white;
-  --border-color: #8e8e8e;
-  --divider-color: black;
+  --surface-border-color: #3a506b; /* desaturated blue */
+  --button-border-color: #af39e7; /* matches primary for buttons */
+  --border-color: #5c677d; /* soft contrast */
+  --divider-color: #2c3e50; /* deeper blue for dividers */
 
-  --input-bg-color: white;
-  --placeholder-color: blue;
+  --input-bg-color: #1b263b; /* match surface for inputs */
+  --placeholder-color: #8899ab; /* desaturated blue-gray */
 }
 
 body {
@@ -51,6 +55,7 @@ svg {
 }
 
 * {
+  font-family: "Orbitron", "Cinzel", sans-serif;
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
@@ -58,10 +63,17 @@ svg {
 .app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .main {
   flex-grow: 1;
   display: flex;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
 }

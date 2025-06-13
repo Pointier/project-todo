@@ -29,7 +29,6 @@ const EditTask = ({ task, onClose }: EditTaskProps) => {
           withCredentials: true,
         },
       );
-      console.log(response.data);
       updateTasks();
       onClose();
     } else {
@@ -37,16 +36,18 @@ const EditTask = ({ task, onClose }: EditTaskProps) => {
     }
   }
   return (
-    <div className={styles.container}>
-      <div className={styles.action}>
-        <button onClick={deleteTask} className={styles.iconButton}>
-          <IoTrashBinOutline />
-        </button>
-        <button onClick={onClose} className={styles.iconButton}>
-          <IoCloseOutline />
-        </button>
+    <div className={styles.modalBackdrop}>
+      <div className={styles.container}>
+        <div className={styles.action}>
+          <button onClick={deleteTask} className={styles.iconButton}>
+            <IoTrashBinOutline />
+          </button>
+          <button onClick={onClose} className={styles.iconButton}>
+            <IoCloseOutline />
+          </button>
+        </div>
+        <div></div>
       </div>
-      <div>{task.title}</div>
     </div>
   );
 };

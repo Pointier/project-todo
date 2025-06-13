@@ -73,3 +73,8 @@
 .utilities > *:hover {
   color: var(--hover-text-color);
 }
+
+.navLink {
+  color: var(--text-color);
+  text-decoration: none;
+}

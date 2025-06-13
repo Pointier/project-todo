@@ -3,15 +3,17 @@ import EditTask from "../../manageTasks/EditTask";
 
 import { addHours, format, parse } from "date-fns";
 import { useState } from "react";
-import { Task, Tasks } from "../../types/types";
+import { Task } from "../../types/types";
 import { useTasks } from "../../context/TasksContext";
 import AddTask from "../../manageTasks/AddTask";
+import { Mode } from "../Calendar";
 
 interface DayProps {
   day: Date;
+  setMode: (mode: Mode) => void;
 }
 
-const Day = ({ day }: DayProps) => {
+const Day = ({ day, setMode }: DayProps) => {
   const { tasks, updateTasks } = useTasks();
   // TODO: make a pop up to manage tasks
   const [selectedTask, setSelectedTask] = useState<null | Task>(null);
@@ -21,9 +23,11 @@ const Day = ({ day }: DayProps) => {
     .fill(undefined)
     .map((_, i) => i);
 
+  const switchToMonth = (mode: Mode) => {
+    setMode(mode);
+  };
   const dayKey = format(day, "d/M/y");
   const dayTasks = tasks?.byDay.has(dayKey) ? tasks.byDay.get(dayKey) : null;
-  console.log("Day Tasks ", dayTasks);
   const minutePerPixel = 0.75;
   const offset = 3;
   const minutesInHour = 60;
@@ -112,7 +116,7 @@ const Day = ({ day }: DayProps) => {
   return (
     <div className={styles.mainDay}>
       {selectedTask && (
-        <div className={styles.modalBackdrop}>
+        <div>
           <EditTask
             onClose={() => setSelectedTask(null)}
             task={selectedTask}
@@ -120,7 +124,9 @@ const Day = ({ day }: DayProps) => {
         </div>
       )}
       <div className={styles.top}>
-        Current day : {day.getDate()}{" "}
+        <div className={styles.date} onClick={() => switchToMonth(Mode.Month)}>
+          {format(day, "dd MMM yyyy")}
+        </div>
         <div
           className={styles.containerTaskUntimed}
           style={{ height: `${minutesInHour * minutePerPixel * 2}px` }} // display 2 tasks
@@ -133,15 +139,15 @@ const Day = ({ day }: DayProps) => {
         <div className={styles.tasksGrid}>
           {taskHour}
           {positionedTasks}
-          {modalHour !== null && (
-            <div className={styles.modalBackdrop}>
+          {modalHour && (
+            <div>
               <AddTask
                 onClose={() => setModalHour(null)}
                 defaultHasHour={true}
                 defaultDate={format(day, "yyyy-MM-dd")}
                 defaultStartHour={formattedStartHour}
                 defaultEndHour={formattedEndHour}
-              ></AddTask>
+              />
             </div>
           )}
         </div>

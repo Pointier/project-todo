@@ -31,7 +31,7 @@ const AddTask = ({
   defaultStartHour = "",
   defaultEndHour = "",
 }: AddTaskProps) => {
-  const [name, setName] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>(defaultDate);
   const [startHour, setStartHour] = useState<string>(defaultStartHour);
@@ -39,17 +39,18 @@ const AddTask = ({
   const [hasHour, setHasHour] = useState<boolean>(defaultHasHour);
   const [isRecurring, setIsRecurring] = useState<boolean>(false);
   const { user, loading } = useAuth();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { tasks, updateTasks } = useTasks();
-  console.log("Default hour:", defaultStartHour);
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!name || !description || !date) {
-      alert("All fields are required");
+    if (!title || !date) {
+      setErrorMessage("You must atleast fill a title and a date");
       return;
     }
+
     const taskDate = new Date(date);
     const newTask: TaskData = {
-      name: name,
+      name: title,
       description: description,
       date: taskDate,
       hasHour: hasHour,
@@ -57,7 +58,7 @@ const AddTask = ({
       endHour: endHour,
       isRecurring: isRecurring,
     };
-    setName("");
+    setTitle("");
     setDescription("");
     setDate("");
     setHasHour(false);
@@ -67,7 +68,6 @@ const AddTask = ({
     if (user) {
       const refresh = true;
       const token = await user.getIdToken(refresh);
-      console.log(newTask);
       const response = await axios.post(`${API_URL}/tasks/add`, newTask, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -75,86 +75,97 @@ const AddTask = ({
         },
         withCredentials: true,
       });
-      console.log(response.data);
       updateTasks();
       onClose();
-    } else {
-      alert("No User log in, sign in or sign up!");
     }
   }
   // TODO: add validation to the form
   return (
-    <div className={styles.addTask}>
-      <form className={styles.addTaskForm} action="" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name: </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="task name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="description">Description: </label>
-          <input
-            type="text"
-            id="description"
-            name="description"
-            placeholder="what is the task"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-        <div>
-          {/* TODO: add custom or stylized calendar*/}
-          <label htmlFor="date">Date: </label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="hasHour">Has Hour:</label>
-          <input
-            type="checkbox"
-            id="hasHour"
-            name="hasHour"
-            checked={hasHour}
-            onChange={(e) => setHasHour(e.target.checked)}
-          />
-        </div>
-        {hasHour && (
-          <div>
-            <div>
-              <label htmlFor="startHour">Start Hour: </label>
-              <input
-                type="time"
-                id="startHour"
-                name="startHour"
-                value={startHour}
-                onChange={(e) => setStartHour(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="endHour">End Hour: </label>
-              <input
-                type="time"
-                id="endHour"
-                name="endHour"
-                value={endHour}
-                onChange={(e) => setEndHour(e.target.value)}
-              />
-            </div>
+    <div className={styles.modalBackdrop}>
+      <div className={styles.addTask}>
+        {!user ? (
+          <div className={styles.errorUser}>
+            <p>You need to be logged in to add task!</p>
+            <button onClick={onClose}>Close</button>
           </div>
-        )}
-        {/*
+        ) : (
+          <form
+            className={styles.addTaskForm}
+            action=""
+            onSubmit={handleSubmit}
+          >
+            {errorMessage && (
+              <div className={styles.errorMessage}>{errorMessage}</div>
+            )}
+            <div>
+              <label htmlFor="name">Name: </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="task name"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="description">Description: </label>
+              <input
+                type="text"
+                id="description"
+                name="description"
+                placeholder="what is the task"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+            <div>
+              {/* TODO: add custom or stylized calendar*/}
+              <label htmlFor="date">Date: </label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="hasHour">Has Hour:</label>
+              <input
+                type="checkbox"
+                id="hasHour"
+                name="hasHour"
+                checked={hasHour}
+                onChange={(e) => setHasHour(e.target.checked)}
+              />
+            </div>
+            {hasHour && (
+              <div>
+                <div>
+                  <label htmlFor="startHour">Start Hour: </label>
+                  <input
+                    type="time"
+                    id="startHour"
+                    name="startHour"
+                    value={startHour}
+                    onChange={(e) => setStartHour(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="endHour">End Hour: </label>
+                  <input
+                    type="time"
+                    id="endHour"
+                    name="endHour"
+                    value={endHour}
+                    onChange={(e) => setEndHour(e.target.value)}
+                  />
+                </div>
+              </div>
+            )}
+            {/*
         <div>
           <label htmlFor="recurring">Recurring Task: </label>
           <input
@@ -166,13 +177,15 @@ const AddTask = ({
           />
         </div>
         */}
-        <div>
-          <input type="submit" />
-        </div>
-        <div>
-          <button onClick={onClose}>Close</button>
-        </div>
-      </form>
+            <div>
+              <input type="submit" />
+            </div>
+            <div>
+              <button onClick={onClose}>Close</button>
+            </div>
+          </form>
+        )}
+      </div>
     </div>
   );
 };
