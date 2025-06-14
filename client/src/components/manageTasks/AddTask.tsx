@@ -143,7 +143,7 @@ const AddTask = ({
             {hasHour && (
               <div>
                 <div>
-                  <label htmlFor="startHour">Start Hour: </label>
+                  <label htmlFor="startHour">Start: </label>
                   <input
                     type="time"
                     id="startHour"
@@ -154,7 +154,7 @@ const AddTask = ({
                 </div>
 
                 <div>
-                  <label htmlFor="endHour">End Hour: </label>
+                  <label htmlFor="endHour">End: </label>
                   <input
                     type="time"
                     id="endHour"

@@ -3,6 +3,7 @@ import verifyTokenRouter from "./verifyToken";
 import { db } from "../dbConnection";
 import { tasksTable } from "../drizzle/schema/schema";
 import { eq } from "drizzle-orm";
+import { error } from "console";
 
 const router = Router();
 router.use(verifyTokenRouter);
@@ -47,7 +48,32 @@ router.post("/tasks/add", async (req: Request, res: Response): Promise<any> => {
 
 router.post(
   "/tasks/edit",
-  async (req: Request, res: Response): Promise<any> => {},
+  async (req: Request, res: Response): Promise<any> => {
+    const userUID = req.user!.uid;
+    const { id, title, description, date, hasHour, startHour, endHour } =
+      req.body;
+    try {
+      const editData = {
+        title: title,
+        description: description,
+        date: date,
+        has_hour: hasHour,
+        startHour: startHour,
+        endHour: endHour,
+      };
+
+      const taskEdit = await db
+        .update(tasksTable)
+        .set(editData)
+        .where(eq(tasksTable.id, id));
+      return res.status(200).json(taskEdit);
+    } catch {
+      console.error("Error editing task in db");
+      return res
+        .status(500)
+        .json({ error: "An error occurred while editing the task: " + error });
+    }
+  },
 );
 
 router.post(

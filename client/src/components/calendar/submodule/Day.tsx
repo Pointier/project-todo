@@ -34,21 +34,23 @@ const Day = ({ day, setMode }: DayProps) => {
   // TODO: handle collision when multiple tasks at the same time
   // TODO: handle if doesnt have hour (place at the top)
   const taskUntimed = dayTasks
-    ? dayTasks.map((task) => {
-        if (!task.hasHour) {
-          const height = minutePerPixel * minutesInHour - offset;
-          return (
-            <div
-              className={styles.taskUntimed}
-              style={{ height: `${height}px` }}
-              key={task.id}
-              onClick={() => setSelectedTask(task)}
-            >
-              {task.title}
-            </div>
-          );
-        }
-      })
+    ? dayTasks
+        .sort((a, b) => a.id - b.id)
+        .map((task) => {
+          if (!task.hasHour) {
+            const height = minutePerPixel * minutesInHour - offset;
+            return (
+              <div
+                className={styles.taskUntimed}
+                style={{ height: `${height}px` }}
+                key={task.id}
+                onClick={() => setSelectedTask(task)}
+              >
+                {task.title}
+              </div>
+            );
+          }
+        })
     : null;
   const positionedTasks = dayTasks
     ? dayTasks.map((task) => {

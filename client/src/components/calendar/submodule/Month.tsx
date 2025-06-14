@@ -109,18 +109,21 @@ const Month = ({ day, setDay, setMode }: MonthProps) => {
                   {day.getDate()}
                 </div>
                 <div className={styles.taskList}>
-                  {tasks?.byDay.get(dayKey)?.map((task, index) => (
-                    <div
-                      key={index}
-                      className={styles.task}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedTask(task);
-                      }}
-                    >
-                      {task.title}
-                    </div>
-                  ))}
+                  {tasks?.byDay
+                    .get(dayKey)
+                    ?.sort((a, b) => a.id - b.id)
+                    .map((task, index) => (
+                      <div
+                        key={index}
+                        className={styles.task}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedTask(task);
+                        }}
+                      >
+                        {task.title}
+                      </div>
+                    ))}
                 </div>
               </div>
             );

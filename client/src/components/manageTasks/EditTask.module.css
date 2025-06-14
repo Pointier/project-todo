@@ -9,8 +9,8 @@
 }
 
 .action {
+  align-self: flex-end;
   display: flex;
-  flex-direction: column;
 }
 .iconButton {
   border: none;
